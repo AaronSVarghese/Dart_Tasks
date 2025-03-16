@@ -1,65 +1,78 @@
 import 'dart:math';
 
 class PasswordManager {
-  static final RegExp _lowerCase = RegExp(r'[a-z]');
-  static final RegExp _upperCase = RegExp(r'[A-Z]');
-  static final RegExp _number = RegExp(r'[0-9]');
-  static final RegExp _specialChar = RegExp(r'[a-zA-Z0-9]');
-
-  static String validatePasswordStrength(String password) {
-    bool hasLower = _lowerCase.hasMatch(password);
-    bool hasUpper = _upperCase.hasMatch(password);
-    bool hasNumber = _number.hasMatch(password);
-    bool hasSpecial = _specialChar.hasMatch(password);
-
-    int length = password.length;
-
-    if (length >= 8 && hasLower && hasUpper && hasNumber && hasSpecial) {
-      return "Strong";
-    } else if (length >= 6 && hasLower && hasUpper && hasNumber) {
-      return "Intermediate";
-    } else {
-      return "Low";
-    }
+ 
+  bool validatePasswordStrength(String password) {
+    
+    RegExp strongRegex = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$%^&*()_+}{":;\?/>.<,])(?=.{8,})');
+    return strongRegex.hasMatch(password);
   }
 
-  static String generatePassword({required String level}) {
-    const String lowerCaseLetters = 'abcdefghijklmnopqrstuvwxyz';
-    const String upperCaseLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const String numbers = '0123456789';
-    const String specialChars = '!@#\$%^&*()_+[]{}';
+  
+  String generateStrongPassword() {
+    
+    String lowercaseChars = 'abcdefghijklmnopqrstuvwxyz';
+    String uppercaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    String digitChars = '0123456789';
+    String specialChars = '!@#\$%^&*()_+":;\'?/>.<,';
 
-    String chars = '';
-    int length = 8;
+    
+    String allChars = lowercaseChars + uppercaseChars + digitChars + specialChars;
 
-    switch (level) {
-      case "strong":
-        chars = lowerCaseLetters + upperCaseLetters + numbers + specialChars;
-        length = 12;
-        break;
-      case "intermediate":
-        chars = lowerCaseLetters + upperCaseLetters + numbers;
-        length = 10;
-        break;
-      case "low":
-        chars = lowerCaseLetters;
-        length = 6;
-        break;
-      default:
-        return "Invalid level";
-    }
+    
+    List<String> charsList = allChars.split('');
+    charsList.shuffle();
 
-    return List.generate(length, (index) => chars[Random().nextInt(chars.length)]).join();
+    
+    String password = charsList.take(12).join('');
+    return password;
+  }
+
+  String generateIntermediatePassword() {
+    
+    String lowercaseChars = 'abcdefghijklmnopqrstuvwxyz';
+    String uppercaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    String digitChars = '0123456789';
+
+    String allChars = lowercaseChars + uppercaseChars + digitChars;
+
+    List<String> charsList = allChars.split('');
+    charsList.shuffle();
+
+    
+    String password = charsList.take(10).join('');
+    return password;
+  }
+
+  String generateLowPassword() {
+    
+    String lowercaseChars = 'abcdefghijklmnopqrstuvwxyz';
+    String digitChars = '0123456789';
+
+    
+    String allChars = lowercaseChars + digitChars;
+
+    List<String> charsList = allChars.split('');
+    charsList.shuffle();
+
+    
+    String password = charsList.take(8).join('');
+    return password;
   }
 }
 
-
 void main() {
-  String password = "safa@TM";
-  print(
-      "Password Strength: ${PasswordManager.validatePasswordStrength(password)}");
+  PasswordManager passwordManager = PasswordManager();
 
-  String generatedStrongPassword =
-      PasswordManager.generatePassword(level: "strong");
-  print("Generated Strong Password: $generatedStrongPassword");
+  String strongPassword = passwordManager.generateStrongPassword();
+  String intermediatePassword = passwordManager.generateIntermediatePassword();
+  String lowPassword = passwordManager.generateLowPassword();
+
+  print('Strong Password: $strongPassword');
+  print('Intermediate Password: $intermediatePassword');
+  print('Low Password: $lowPassword');
+
+  String passwordToCheck = 'StrongPass123!'; // Example password to check
+  bool isStrong = passwordManager.validatePasswordStrength(passwordToCheck);
+  print('Is Strong Password: $isStrong');
 }
