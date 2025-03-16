@@ -1,87 +1,105 @@
 import 'dart:io';
 
 void main() {
-  bool isRunning = true;
-  while (isRunning) {
-    print("\n--- Simple Calculator ---");
-    print("1. Addition");
-    print("2. Subtraction");
-    print("3. Multiplication");
-    print("4. Division");
-    print("5. Compare two numbers");
-    print("6. Exit");
-    stdout.write("Enter your choice (1-6): ");
+  print('Welcome to the Simple Calculator\n');
+
+  print('Menu:');
+  print('1. Addition');
+  print('2. Subtraction');
+  print('3. Multiplication');
+  print('4. Division');
+  print('5. Comparison (Greater than, Less than, Equal)');
+  print('6. Exit');
+
+  while (true) {
+    print('\nEnter your choice (1-6):');
+
     String? choice = stdin.readLineSync();
+
     switch (choice) {
       case '1':
-        performOperation('+');
+        performAddition();
         break;
       case '2':
-        performOperation('-');
+        performSubtraction();
         break;
       case '3':
-        performOperation('*');
+        performMultiplication();
         break;
       case '4':
-        performOperation('/');
+        performDivision();
         break;
       case '5':
         performComparison();
         break;
       case '6':
-        isRunning = false;
-        print("Exiting program.");
-        break;
+        exit(0);
       default:
-        print("Invalid choice, please select a number between 1 and 6.");
+        print('Invalid choice. Please enter a number between 1 and 6.');
     }
   }
 }
 
-void performOperation(String operator) {
-  double num1 = getNumber("Enter the first number: ");
-  double num2 = getNumber("Enter the second number: ");
+void performAddition() {
+  print('\nEnter the first number:');
+  double number1 = double.parse(stdin.readLineSync()!);
 
-  double result;
-  switch (operator) {
-    case '+':
-      result = num1 + num2;
-      break;
-    case '-':
-      result = num1 - num2;
-      break;
-    case '*':
-      result = num1 * num2;
-      break;
-    case '/':
-      result = num1 / num2;
-      break;
-    default:
-      print("Invalid operator");
-      return;
+  print('Enter the second number:');
+  double number2 = double.parse(stdin.readLineSync()!);
+
+  double result = number1 + number2;
+  print('The sum of $number1 and $number2 is $result');
+}
+
+void performSubtraction() {
+  print('\nEnter the first number:');
+  double number1 = double.parse(stdin.readLineSync()!);
+
+  print('Enter the second number:');
+  double number2 = double.parse(stdin.readLineSync()!);
+
+  double result = number1 - number2;
+  print('The difference of $number1 and $number2 is $result');
+}
+
+void performMultiplication() {
+  print('\nEnter the first number:');
+  double number1 = double.parse(stdin.readLineSync()!);
+
+  print('Enter the second number:');
+  double number2 = double.parse(stdin.readLineSync()!);
+
+  double result = number1 * number2;
+  print('The product of $number1 and $number2 is $result');
+}
+
+void performDivision() {
+  print('\nEnter the dividend:');
+  double dividend = double.parse(stdin.readLineSync()!);
+
+  print('Enter the divisor:');
+  double divisor = double.parse(stdin.readLineSync()!);
+
+  if (divisor == 0) {
+    print('Error: Division by zero is not allowed');
+  } else {
+    double result = dividend / divisor;
+    print('The quotient of $dividend divided by $divisor is $result');
   }
-
-  print("Result: $num1 $operator $num2 = $result");
 }
 
 void performComparison() {
-  double num1 = getNumber("Enter the first number: ");
-  double num2 = getNumber("Enter the second number: ");
+  print('\nEnter the first number:');
+  double number1 = double.parse(stdin.readLineSync()!);
 
-  String comparison;
-  if (num1 > num2) {
-    comparison = "greater than";
-  } else if (num1 < num2) {
-    comparison = "less than";
+  print('Enter the second number:');
+  double number2 = double.parse(stdin.readLineSync()!);
+
+  if (number1 > number2) {
+    print('$number1 is greater than $number2');
+  } else if (number1 < number2) {
+    print('$number1 is less than $number2');
   } else {
-    comparison = "equal to";
+    print('$number1 is equal to $number2');
   }
-
-  print("Comparison: $num1 is $comparison $num2");
-}
-
-double getNumber(String prompt) {
-  stdout.write(prompt);
-  String? input = stdin.readLineSync();
-  return double.tryParse(input ?? '0') ?? 0;
 }
