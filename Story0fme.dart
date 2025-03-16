@@ -1,38 +1,40 @@
 import 'dart:io';
+
 void main() {
-  print('Name:');
-  String name = stdin.readLineSync() ?? '';
+  print('Welcome to Biodata Generator\n');
 
-  print('Phone number:');
-  String phoneNumber = stdin.readLineSync() ?? '';
+  print('Enter your information:');
+  print('Name: ');
+  String name = stdin.readLineSync()!;
+  print('Your Phone number: ');
+  String phoneNumber = stdin.readLineSync()!;
+  print('Your Age: ');
+  int age = int.parse(stdin.readLineSync()!);
+  print('Your Height (in cm): ');
+  double height = double.parse(stdin.readLineSync()!);
+  print('Your Weight (in kg): ');
+  double weight = double.parse(stdin.readLineSync()!);
+  print('Your Address: ');
+  String address = stdin.readLineSync()!;
+  print('Your Hobbies (comma-separated list): ');
+  List<String> hobbies = stdin.readLineSync()!.split(',');
 
-  print('Age:');
-  int age = int.tryParse(stdin.readLineSync() ?? '') ?? 0;
+  print('\nGenerating Biodata...\n');
 
-  print('Height (in cm):');
-  double height = double.tryParse(stdin.readLineSync() ?? '') ?? 0.0;
+  print('==========================');
+  print('        BIODATA           ');
+  print('==========================\n');
 
-  print('Weight (in kg):');
-  double weight = double.tryParse(stdin.readLineSync() ?? '') ?? 0.0;
+  print('Name: $name');
+  print('Phone Number: $phoneNumber');
+  print('Age: $age');
+  print('Height: $height cm');
+  print('Weight: $weight kg');
+  print('Address: $address');
+  print('Your Hobbies: ');
+  for (String hobby in hobbies) {
+    print('- $hobby');
+  }
 
-  print('Address:');
-  String address = stdin.readLineSync() ?? '';
-
-  print("Hobbies (separated by comma):");
-  List<String> hobbies = (stdin.readLineSync() ?? '').split(',');
-
-  String biodata = '''
----------------------------
-       BIODATA
----------------------------
-Name: $name
-Phone Number: $phoneNumber
-Age: $age
-Height: $height cm
-Weight: $weight kg
-Address: $address
-Hobbies: ${hobbies.join(', ')}
----------------------------
-  ''';
-  print(biodata);
+  print('\n==========================');
 }
